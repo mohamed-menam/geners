@@ -1,21 +1,8 @@
-const mongoose=require('mongoose')
 const exprss=require("express")
 const router=exprss.Router()
 const Validation=require('../validation')
 const genresValidation=Validation.genresValidation
-
-
-
-const Genres=mongoose.model('Genres',new mongoose.Schema({
-    name:{
-        type:String,
-        required:true,
-        minlength:5,
-        maxlength:50
-    }
-}));
-
-
+const Genres=require('../models/genre')
 
 
 router.get('/',async (req,res)=>{

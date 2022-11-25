@@ -1,27 +1,8 @@
 const express=require('express')
-
+const Customer=require('../models/customer')
 const router=express.Router()
 const {customerValidation}=require('../validation')
 // const customerValidation=validation.customerValidation
-const mongoose=require('mongoose');
-const { string } = require('joi');
-
-const Customer=mongoose.model('customer',new mongoose.Schema({
-    isGold:{
-        type:Boolean,
-        default:false
-        },
-    name:{
-        type:String,
-        required:true,
-        minlength:5,
-        maxlength:55
-    },
-    phone:{
-        type:String,
-        required:true,
-    }
-}));
 
 
 
