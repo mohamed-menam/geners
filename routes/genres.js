@@ -2,14 +2,17 @@ const exprss=require("express")
 const router=exprss.Router()
 const Validation=require('../validation')
 const genresValidation=Validation.genresValidation
-const Genres=require('../models/genre')
+const {Genres}=require('../models/genre')
+const auth =require('../midleware/auth')
+const admin = require("../midleware/admin")
+const asyncMidleware=require('../midleware/async')
 
 
-router.get('/',async (req,res)=>{
-    const genres= await Genres.find()
-    // return all genres 
-    res.send(genres);
-});
+router.get('/',asyncMidleware( async (req,res,next)=>{
+        const genres= await Genres.find()
+        // return all genres 
+        res.send(genres);
+}));
 
 router.get('/:id',async (req,res)=>{
     // look up to the genre
@@ -22,7 +25,7 @@ router.get('/:id',async (req,res)=>{
     return res.send(genre)
 });
 
-router.post('/',async(req,res)=>{
+router.post('/',auth,async(req,res)=>{
     // validate
     const {error}=genresValidation(req.body)
     if (error){
@@ -50,7 +53,7 @@ router.put('/:id',async(req,res)=>{
 });
 
 
-router.delete('/:id',async(req,res)=>{
+router.delete('/:id',[auth,admin],async(req,res)=>{
     // look up to the genre
     // Delete
     const genre= await Genres.findByIdAndRemove(req.params.id,{new:true})
@@ -62,3 +65,4 @@ router.delete('/:id',async(req,res)=>{
 });
 
 module.exports=router;
+
