@@ -6,12 +6,15 @@ const {Genres}=require('../models/genre')
 const auth =require('../midleware/auth')
 const admin = require("../midleware/admin")
 const asyncMidleware=require('../midleware/async')
+const error = require("../midleware/error")
 
 
 router.get('/',asyncMidleware( async (req,res,next)=>{
-        const genres= await Genres.find()
+
+
+    const genres= await Genres.find()
         // return all genres 
-        res.send(genres);
+    res.send(genres);
 }));
 
 router.get('/:id',async (req,res)=>{
